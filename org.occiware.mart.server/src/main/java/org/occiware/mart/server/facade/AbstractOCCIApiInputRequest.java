@@ -1379,7 +1379,8 @@ public class AbstractOCCIApiInputRequest implements OCCIApiInputRequest {
             return null;
         }
         for (Mixin mixin: mixins){
-            mixins.addAll(getDependentMixinsRecursive(mixin.getDepends()));
+	    mixins.addAll(mixin.getDepends());
+	    getDependentMixinsRecursive(mixin.getDepends());
         }
         return mixins;
     }
