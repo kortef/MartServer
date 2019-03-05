@@ -1273,12 +1273,12 @@ public class AbstractOCCIApiInputRequest implements OCCIApiInputRequest {
                             Mixin current = optMixin.get();
                             mixinModels.add(current);
                             // If mixin has depends, we add the depends recursively.
-                            depends = current.getDepends();
-                            mixinModels.addAll(depends);
+                            //depends = current.getDepends();
+                            mixinModels.addAll(getDependentMixinsRecursive(mixinModels));
 
-                            for (Mixin mixinSubDep : depends) {
-                                mixinModels.addAll(mixinSubDep.getDepends());
-                            }
+                            //for (Mixin mixinSubDep : depends) {
+                            //    mixinModels.addAll(mixinSubDep.getDepends());
+                            //}
 
                             // TODO : Add recursive method to add all mixins in perimeters (depends subdepends , subsubdepends etc.)
 
@@ -1372,6 +1372,16 @@ public class AbstractOCCIApiInputRequest implements OCCIApiInputRequest {
     @Override
     public String createUUID() {
         return ConfigurationManager.createUUID();
+    }
+    
+    private LinkedList<Mixin> getDependentMixinsRecursive(LinkedList<Mixin> mixins){
+        if (mixins == null){
+            return null;
+        }
+        for (Mixin mixin: mixins){
+            mixins.addAll(getDependendMixinsRecursive(mixin.getDepends()));
+        }
+        return mixins;
     }
 
 
