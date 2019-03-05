@@ -1374,12 +1374,12 @@ public class AbstractOCCIApiInputRequest implements OCCIApiInputRequest {
         return ConfigurationManager.createUUID();
     }
     
-    private LinkedList<Mixin> getDependentMixinsRecursive(LinkedList<Mixin> mixins){
+    private List<Mixin> getDependentMixinsRecursive(List<Mixin> mixins){
         if (mixins == null){
             return null;
         }
         for (Mixin mixin: mixins){
-            mixins.addAll(getDependendMixinsRecursive(mixin.getDepends()));
+            mixins.addAll(getDependentMixinsRecursive(mixin.getDepends()));
         }
         return mixins;
     }
